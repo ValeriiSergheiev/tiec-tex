@@ -1,11 +1,12 @@
 <template>
   <div>
-    <b-form @submit="" @reset="">
+    <b-form @submit.prevent="onSubmit">
       <ul class="properties-list">
-        <li v-for="(property, index) in propertiesRows">
+        <li v-for="(item, index) in propertiesRows" :key="index">
           <span>{{index + 1}}</span>
-          <b-form-select v-model="selected" :options="propertiesRows" />
+          <b-form-select v-model="selected" :options="item.options" />
           <b-button @click="deleteRow(index)" variant="danger" size="sm">Delete</b-button>
+          <span>{{item.text}}</span>
         </li>
       </ul>
     
@@ -28,28 +29,40 @@
       return {
         formObj: [],
         propertiesRows: [],
+        selectOption: [],
         selected: null,
-        i: 0
       }
     },
 
     mounted () {
       let formJson = JSON.stringify(this.$store.state.form)
       this.formObj = JSON.parse(formJson)
-      console.log(this.formObj)
+      // console.log(this.formObj)
+      for (let k = 0; k < this.formObj.length; k++) {
+        this.selectOption.push(
+          {
+            value: this.formObj[k].name,
+            text: this.formObj[k].title
+          }
+        )
+      }
+      // console.log(this.selectOption)
     },
 
     methods: {
       addRow () {
-        this.propertiesRows.push({
-          value: this.formObj[this.i].name,
-          text: this.formObj[this.i].title
-        })
-        this.i++
+        this.propertiesRows.push(
+          {
+            options: this.selectOption
+          }
+        )
       },
       deleteRow (index) {
         this.propertiesRows.splice(index, 1)
         this.i--
+      },
+      onSubmit () {
+        alert('submit')
       }
     }
   }
