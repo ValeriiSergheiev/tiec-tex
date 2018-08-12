@@ -6,7 +6,7 @@
           <a href="#"><img src="../assets/logo.png" alt=""></a>
         </header>
         <div class="row">
-          <div class="col-md-7 col-12">
+          <div class="col-lg-7 col-md-6 col-12">
             <div class="top-content-text">
               <h1>This is the main title placed in h1 tag</h1>
               <div class="text-block dark-blue-block">
@@ -15,10 +15,10 @@
             </div>
           </div>
           
-          <div class="col-md-5 col-12">
+          <div class="col-lg-5 col-md-6 col-12">
             <div class="top-content-form">
               <div class="dark-blue-block">
-                <Form />
+                <Form :formArr="$store.state.form" />
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import Form from './../components/Form'
+  import Form from '../components/Form'
   
   export default {
     name: "Landing",
@@ -89,5 +89,10 @@
   
   .top-content-form {
     color: #fff;
+  }
+  
+  //Media
+  @media only screen and (max-width: 600px) {
+  
   }
 </style>

@@ -23,5 +23,6 @@ export default {
   body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
+    min-width: 320px;
   }
 </style>

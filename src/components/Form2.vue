@@ -2,18 +2,18 @@
   <div>
     <b-form @submit.prevent="onSubmit">
       <ul class="properties-list">
-        <li v-for="(item, index) in items" :key="index">
+        <li v-for="(item, index) in propertiesRows" :key="index">
           <span>{{index + 1}}</span>
-          <b-form-select v-model="item.selected" @change="onChange(item.selected)" :options="formArr" />
+          <b-form-select v-model="selected" :options="item.options" />
           <b-button @click="deleteRow(index)" variant="danger" size="sm">Delete</b-button>
-          {{item.selected}}
+          <span>{{item.text}}</span>
         </li>
       </ul>
-      
+    
       <b-button @click="addRow" variant="success" size="sm">
         <font-awesome-icon icon="plus-circle" class="mr-2"/>Add property
       </b-button>
-      
+    
       <div class="mt-4 text-center">
         <b-button type="submit" variant="primary">Sort</b-button>
       </div>
@@ -25,52 +25,44 @@
   export default {
     name: "Form",
     
-    props: [
-      'formArr'
-    ],
-
     data () {
       return {
+        formObj: [],
+        propertiesRows: [],
+        selectOption: [],
         selected: null,
-        options: [],
-        menus: [],
-        items: []
       }
     },
 
     mounted () {
-      for (let i = 0; i < this.formArr.length; i++) {
-        this.formArr[i].text = this.formArr[i].title
-        this.formArr[i].value = this.formArr[i].name
-        this.formArr[i].disabled = false
-        this.formArr[i].id = i
+      let formJson = JSON.stringify(this.$store.state.form)
+      this.formObj = JSON.parse(formJson)
+      // console.log(this.formObj)
+      for (let k = 0; k < this.formObj.length; k++) {
+        this.selectOption.push(
+          {
+            value: this.formObj[k].name,
+            text: this.formObj[k].title
+          }
+        )
       }
+      // console.log(this.selectOption)
     },
 
     methods: {
       addRow () {
-        this.items.push(
+        this.propertiesRows.push(
           {
-            selected: null
+            options: this.selectOption
           }
         )
       },
       deleteRow (index) {
-        this.items.splice(index, 1)
+        this.propertiesRows.splice(index, 1)
+        this.i--
       },
-
-      onChange (selectedItem) {
-        for (let key in this.formArr) {
-          if (this.formArr[key].name == selectedItem) {
-            this.formArr[key].disabled = true
-          } else {
-            this.formArr[key].disabled = false
-          }
-        }
-      },
-
       onSubmit () {
-        // this.formArr[2].disabled = true
+        alert('submit')
       }
     }
   }
