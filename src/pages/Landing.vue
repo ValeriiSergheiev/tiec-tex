@@ -5,6 +5,7 @@
         <header>
           <a href="#"><img src="../assets/logo.png" alt=""></a>
         </header>
+        
         <div class="row">
           <div class="col-lg-7 col-md-6 col-12">
             <div class="top-content-text">
@@ -23,10 +24,17 @@
             </div>
           </div>
         </div>
+        
       </div>
     </section>
     
     <section class="section-bottom"></section>
+  
+    <footer>
+      <div class="container">
+        <pre id="result"></pre>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -89,6 +97,12 @@
   
   .top-content-form {
     color: #fff;
+  }
+  
+  #result {
+    color: tomato;
+    margin-bottom: 0;
+    font-size: 12px;
   }
   
   //Media
