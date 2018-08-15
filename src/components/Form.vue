@@ -93,6 +93,7 @@
           if (this.formArr[i].name == itemSelected) {
             this.formArr[i].disabled = false
             this.result.splice(i, 1)
+            console.log(this.result)
           }
         }
         this.items.splice(index, 1)
