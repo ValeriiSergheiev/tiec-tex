@@ -3,15 +3,22 @@
     <b-form @submit.prevent="onSubmit">
       <ul class="properties-list">
         <li v-for="(item, index) in items" :key="index">
-          <span>{{index + 1}}</span>
+          <span class="mr-2">{{index + 1}}</span>
           <b-form-select
             :options="formArr"
             v-model="item.selected"
             @input="changeSelected(item.selected, index)"
-            :disabled="item.disabled">
+            :disabled="item.disabled"
+            class="mr-2"
+          >
           </b-form-select>
-          <b-button @click="changeOrder(item.selected, index)" variant="primary" size="sm">order</b-button>
-          <b-button @click="deleteRow(index, item.selected)" :disabled="disableBtn" variant="danger" size="sm">Delete</b-button>
+          <b-button @click="changeOrder(item.selected, index)" :disabled="disableBtn" class="mr-2" variant="primary" size="sm">
+            <font-awesome-icon v-show="item.amountUp" icon="sort-amount-up" class=""/>
+            <font-awesome-icon v-show="!item.amountUp" icon="sort-amount-down" class=""/>
+          </b-button>
+          <b-button @click="deleteRow(index, item.selected)" :disabled="disableBtn" variant="danger" size="sm">
+            <font-awesome-icon icon="trash-alt" class=""/>
+          </b-button>
         </li>
       </ul>
       
@@ -59,7 +66,8 @@
         this.items.push(
           {
             selected: null,
-            disabled: false
+            disabled: false,
+            amountUp: true
           }
         )
         this.disableBtn = true
@@ -67,9 +75,8 @@
 
       changeOrder (itemSelected, index) {
         for (let i = 0;  i < this.formArr.length; i++) {
-          // this.formArr[i].orderTypeDefault = (this.formArr[i].name == itemSelected && this.formArr[i].orderTypeDefault == 'ASC') ? 'DESC' : 'ASC'
-          // this.result[index].order = this.formArr[i].orderTypeDefault
           if (this.formArr[i].name == itemSelected) {
+            this.items[index].amountUp = !this.items[index].amountUp
             if (this.formArr[i].orderTypeDefault == 'ASC') {
               this.formArr[i].orderTypeDefault = 'DESC'
               this.result[index].order = this.formArr[i].orderTypeDefault
@@ -96,6 +103,7 @@
         for (let i = 0;  i < this.formArr.length; i++) {
           if (this.formArr[i].name == itemSelected) {
             this.formArr[i].disabled = true
+            this.items[index].amountUp = (this.formArr[i].orderTypeDefault == 'ASC') ? true : false
             this.result.push(
               {
                 priority: this.formArr[i].priority,
